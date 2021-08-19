@@ -1,9 +1,9 @@
 import './index.css'
+import Counter from './components/counter'
 function App() {
   return (
     <div className="container">
-        <h1>Hello World</h1>
-        <p>Четвериков Никита Сергеевич</p>
+      <Counter />
     </div>
   );
 }
