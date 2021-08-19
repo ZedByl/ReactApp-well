@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 const Counter = () => {
+
   const [count, setCount] = useState(0)
 
   const increment = () => {
@@ -9,10 +10,10 @@ const Counter = () => {
   const decrement = () => {
     if (count === 0) {
       return false
-    } else if (count) {
-      setCount(count - 1)
     }
+    setCount(count - 1)
   }
+
   return (
     <div className='counter'>
       <p className='h1 m-2 bg-info '>{count === 0 ? 'Ноль' : count}</p>
