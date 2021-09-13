@@ -1,9 +1,17 @@
 * {
     margin: 0;
     padding: 0;
-
 }
 
 span {
     margin-right: 10px;
+}
+
+.bookmark-img {
+    width: 20px;
+    height: 20px;
+}
+
+.bookmark-button {
+    padding: 5px;
 }
