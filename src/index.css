@@ -3,6 +3,10 @@
     padding: 0;
 }
 
+h2 {
+    margin-left: 20px;
+}
+
 span {
     margin-right: 10px;
 }
@@ -14,4 +18,8 @@ span {
 
 .bookmark-button {
     padding: 5px;
+}
+
+.pagination {
+    margin-left: 20px;
 }

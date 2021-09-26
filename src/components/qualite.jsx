@@ -1,7 +1,8 @@
 import React from 'react';
-import Bookmark from "./bookmark";
+import Bookmark from './bookmark';
+import PropTypes from 'prop-types';
 
-const Qualite = ({ qualities, completedMeetings, rate, profession }) => {
+const Qualite = ({qualities, completedMeetings, rate, profession}) => {
   return (
     <>
       <td>{qualities.map((qualitie) =>
@@ -11,9 +12,16 @@ const Qualite = ({ qualities, completedMeetings, rate, profession }) => {
       <td>{profession}</td>
       <td>{completedMeetings}</td>
       <td>{rate}</td>
-      <Bookmark />
+      <Bookmark/>
     </>
   );
 };
+
+Qualite.propTypes = {
+  qualities: PropTypes.array,
+  completedMeetings: PropTypes.number,
+  rate: PropTypes.number,
+  profession: PropTypes.string
+}
 
 export default Qualite;

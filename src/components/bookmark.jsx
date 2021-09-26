@@ -8,10 +8,9 @@ const Bookmark = () => {
   return (
     <>
       <td>
-        <button className='bookmark-button' onClick={() => setIsBookmark(!isBookmark)}>
-          { isBookmark ? <img className='bookmark-img' src={bookmark} alt="bookmark"/>
-            :
-            <img className='bookmark-img' src={bookmarkFill} alt="bookmarkFill"/>
+        <button className="bookmark-button" onClick={() => setIsBookmark(!isBookmark)}>
+          {isBookmark ? <img className="bookmark-img" src={bookmark} alt="bookmark"/>
+            : <img className="bookmark-img" src={bookmarkFill} alt="bookmarkFill"/>
           }
         </button>
       </td>

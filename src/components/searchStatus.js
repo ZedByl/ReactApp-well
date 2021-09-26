@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const SearchStatus = ({number}) => {
   if (number > 4 || number === 1) {
@@ -9,5 +10,9 @@ const SearchStatus = ({number}) => {
     return <span className="badge bg-danger">Сори брат с тобой не тусанут</span>
   }
 };
+
+SearchStatus.propTypes = {
+  number: PropTypes.number
+}
 
 export default SearchStatus;
