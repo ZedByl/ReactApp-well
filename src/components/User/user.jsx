@@ -1,5 +1,5 @@
 import React from 'react';
-import Qualite from './qualite';
+import Qualite from '../Qualite/qualite';
 import PropTypes from 'prop-types';
 
 const User = ({name, qualities, completedMeetings, rate, profession}) => {

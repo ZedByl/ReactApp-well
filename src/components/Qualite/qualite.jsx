@@ -1,5 +1,5 @@
 import React from 'react';
-import Bookmark from './bookmark';
+import Bookmark from '../Bookmark/bookmark';
 import PropTypes from 'prop-types';
 
 const Qualite = ({qualities, completedMeetings, rate, profession}) => {

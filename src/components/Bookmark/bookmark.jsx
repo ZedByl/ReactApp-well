@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import bookmark from '../img/bookmark.svg'
-import bookmarkFill from '../img/bookmark-fill.svg'
+import bookmark from '../../img/bookmark.svg'
+import bookmarkFill from '../../img/bookmark-fill.svg'
 
 const Bookmark = () => {
   const [isBookmark, setIsBookmark] = useState(true)
