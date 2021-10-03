@@ -1,21 +1,14 @@
-import React, {useState} from 'react';
-import bookmark from '../../img/bookmark.svg'
-import bookmarkFill from '../../img/bookmark-fill.svg'
-
-const Bookmark = () => {
-  const [isBookmark, setIsBookmark] = useState(true)
-
-  return (
-    <>
-      <td>
-        <button className="bookmark-button" onClick={() => setIsBookmark(!isBookmark)}>
-          {isBookmark ? <img className="bookmark-img" src={bookmark} alt="bookmark"/>
-            : <img className="bookmark-img" src={bookmarkFill} alt="bookmarkFill"/>
-          }
+import React from "react";
+import PropTypes from "prop-types";
+const BookMark = ({ status, ...rest }) => {
+    return (
+        <button className='bookmark-button' {...rest}>
+            <i className={"bi bi-bookmark" + (status ? "-heart-fill" : "")}></i>
         </button>
-      </td>
-    </>
-  );
+    );
+};
+BookMark.propTypes = {
+    status: PropTypes.bool
 };
 
-export default Bookmark;
+export default BookMark;

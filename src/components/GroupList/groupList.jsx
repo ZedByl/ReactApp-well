@@ -1,21 +1,39 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-const GroupList = ({items, valueProperty, contentProperty, onItemsSelect, selectedItem}) => {
+const GroupList = ({valueProperty, contentProperty, selectedItem, setSelectedProf, items}) => {
+    const clearFilter = () => {
+        setSelectedProf()
+    }
+
+    const handleProfessionsSelect = (item) => {
+        setSelectedProf(item)
+    }
+
     return (
         <>
-            <h3>Фильтры</h3>
-            <ul className="list-group">
-                {Object.keys(items).map(item => (
-                    <li className={"list-group-item" + (items[item][contentProperty] === selectedItem ? ' active' : '')}
-                        role='button'
-                        key={items[item][valueProperty]}
-                        onClick={() => onItemsSelect(items[item][contentProperty])}
+            {items && (
+                <>
+                    <h3>Фильтры</h3>
+                    <ul className="list-group">
+                        {Object.keys(items).map(item => (
+                            <li className={"list-group-item" + (items[item][contentProperty] === selectedItem ? ' active' : '')}
+                                role='button'
+                                key={items[item][valueProperty]}
+                                onClick={() => handleProfessionsSelect(items[item][contentProperty])}
+                            >
+                                {items[item][contentProperty]}
+                            </li>
+                        ))}
+                    </ul>
+                    <button
+                        className='btn btn-secondary mt-2'
+                        onClick={clearFilter}
                     >
-                        {items[item][contentProperty]}
-                    </li>
-                ))}
-            </ul>
+                        Очистить
+                    </button>
+                </>
+            )}
         </>
     );
 };
@@ -30,7 +48,7 @@ GroupList.propTypes = {
     valueProperty: PropTypes.string,
     contentProperty: PropTypes.string,
     selectedItem: PropTypes.string,
-    onItemsSelect: PropTypes.func
+    setSelectedProf: PropTypes.func
 }
 
 export default GroupList;

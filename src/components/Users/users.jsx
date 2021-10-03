@@ -1,74 +1,95 @@
-import React, {useState} from 'react';
-import PropTypes from 'prop-types'
-import User from '../User/user';
+import React, {useEffect, useState} from 'react';
+import _ from 'lodash'
+
 import Pagination from '../Pagination/pagination';
 import {paginate} from '../../utils/paginate';
+import UsersTable from "../UsersTable/usersTable";
+import api from "../../api";
+import SearchStatus from "../SearchStatus/searchStatus";
+import GroupList from "../GroupList/groupList";
+import Loader from "../Loader";
 
-const Users = ({users, setUsers}) => {
+const Users = () => {
+    const [users, setUsers] = useState();
+    const [selectedProf, setSelectedProf] = useState()
+    const [professions, setProfessions] = useState()
+
     const [currentPage, setCurrentPage] = useState(1)
-    const usersLength = users.length
+    const [sortBy, setSortBy] = useState({path: 'name', order: 'asc'})
     const pageSize = 4
-    const usersAll = paginate(users, currentPage, pageSize)
 
-    const handleDeleteUser = (e) => {
-        const user = e.target.getAttribute('id')
-        setUsers(users.filter(item => item._id !== user))
-    }
+    useEffect(() => {
+        api.users.fetchAll().then(data => setUsers(data))
+        api.professions.fetchAll().then(data => setProfessions(data))
+    }, [])
+
+    const handleDelete = (userId) => {
+        setUsers(users.filter((user) => user._id !== userId));
+    };
+
+    const handleToggleBookMark = (id) => {
+        setUsers(
+            users.map((user) => {
+                if (user._id === id) {
+                    return {...user, bookmark: !user.bookmark};
+                }
+                return user;
+            })
+        );
+    };
 
     const handlePageChange = (page) => {
         setCurrentPage(page)
     }
 
-    return (
-        <>
-            <table className="table">
-                <thead>
-                <tr>
-                    <th scope="col">Имя</th>
-                    <th scope="col">Качества</th>
-                    <th scope="col">Профессия</th>
-                    <th scope="col">Встретился раз</th>
-                    <th scope="col">Оценка</th>
-                    <th scope="col">Избранное</th>
-                    <th scope="col"/>
-                </tr>
-                </thead>
-                <tbody>
-                {usersAll.map((user) =>
-                    <tr key={user._id}>
-                        <User
-                            name={user.name}
-                            qualities={user.qualities}
-                            profession={user.profession.name}
-                            completedMeetings={user.completedMeetings}
-                            rate={user.rate}
-                        />
-                        <td>
-                            <button
-                                id={user._id}
-                                type="button"
-                                className="btn btn-danger"
-                                onClick={handleDeleteUser}>
-                                Удалить
-                            </button>
-                        </td>
-                    </tr>
-                )}
-                </tbody>
-            </table>
-            <Pagination
-                users={usersLength}
-                pageSize={pageSize}
-                currentPage={currentPage}
-                onPageChange={handlePageChange}
-            />
-        </>
-    );
-};
+    const handleSort = (item) => {
+        setSortBy(item)
+    }
 
-Users.propTypes = {
-    users: PropTypes.array,
-    setUsers: PropTypes.func,
-}
+    if (users) {
+
+        const filteredUsers = selectedProf ? users.filter((user) => user.profession.name === selectedProf) : users
+        const usersLength = filteredUsers.length
+        const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order])
+        const usersAll = paginate(sortedUsers, currentPage, pageSize)
+
+        return (
+
+            <div className="wrapper">
+                <div className="wrapper__header">
+                    <h2>
+                        <SearchStatus number={filteredUsers.length}/>
+                    </h2>
+                </div>
+                <div className="wrapper__body">
+                    <div className="wrapper__body-filters">
+                        <GroupList
+                            selectedItem={selectedProf}
+                            setSelectedProf={setSelectedProf}
+                            items={professions}
+                        />
+                    </div>
+                    <div className="wrapper__body-users">
+
+                        <UsersTable
+                            users={usersAll}
+                            deleteUser={handleDelete}
+                            onSort={handleSort}
+                            selectedSort={sortBy}
+                            onToggleBookMark={handleToggleBookMark}
+                        />
+                        <Pagination
+                            users={usersLength}
+                            pageSize={pageSize}
+                            currentPage={currentPage}
+                            onPageChange={handlePageChange}
+                        />
+                    </div>
+                </div>
+            </div>
+    );} else {
+        return <Loader />
+    }
+};
 
 export default Users;
