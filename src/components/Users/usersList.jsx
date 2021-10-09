@@ -9,7 +9,7 @@ import SearchStatus from "../SearchStatus/searchStatus";
 import GroupList from "../GroupList/groupList";
 import Loader from "../Loader";
 
-const Users = () => {
+const UsersList = () => {
     const [users, setUsers] = useState();
     const [selectedProf, setSelectedProf] = useState()
     const [professions, setProfessions] = useState()
@@ -70,7 +70,6 @@ const Users = () => {
                         />
                     </div>
                     <div className="wrapper__body-users">
-
                         <UsersTable
                             users={usersAll}
                             deleteUser={handleDelete}
@@ -92,4 +91,4 @@ const Users = () => {
     }
 };
 
-export default Users;
+export default UsersList;
