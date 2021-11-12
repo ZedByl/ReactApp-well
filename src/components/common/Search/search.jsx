@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Search = ({onChange}) => {
+const Search = ({onChange, value}) => {
 
     return (
         <input
@@ -10,6 +10,7 @@ const Search = ({onChange}) => {
             placeholder='Search...'
             className='form-control w-100 mx-auto'
             onChange={e => onChange(e.target.value)}
+            value={value}
         />
     );
 };

@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from "prop-types";
 
-const GroupList = ({valueProperty, contentProperty, selectedItem, setSelectedProf, items}) => {
+const GroupList = ({valueProperty, contentProperty, selectedItem, setSelectedProf, items, clearSearch}) => {
     const clearFilter = () => {
         setSelectedProf()
     }
 
     const handleProfessionsSelect = (item) => {
+        clearSearch()
         setSelectedProf(item)
     }
 

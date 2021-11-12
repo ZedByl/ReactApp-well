@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {useLocation, useHistory} from 'react-router-dom'
-import {getMaterialUrl} from '../../utils/getMaterialUrl'
-import api from "../../api";
-import Loader from "../Loader";
-import QualitiesList from "../QualitiesList/qualitiesList";
+import {getMaterialUrl} from '../../../utils/getMaterialUrl'
+import api from "../../../api";
+import Loader from "../../common/Loader";
+import QualitiesList from "../../ui/qualities/QualitiesList/qualitiesList";
 
-const User = () => {
+const UserPage = () => {
     const location = useLocation()
     const history = useHistory()
     const userId = getMaterialUrl(location.pathname)
@@ -38,4 +38,4 @@ const User = () => {
     } else return <Loader />
 };
 
-export default User;
+export default UserPage;

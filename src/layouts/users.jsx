@@ -1,10 +1,10 @@
 import React from 'react';
-import UsersList from "../components/Users/usersList";
+import UsersListPage from "../components/page/Users";
 
 const Users = () => {
     return (
         <>
-           <UsersList />
+           <UsersListPage />
         </>
     );
 };

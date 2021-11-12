@@ -1,16 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import _ from 'lodash'
 
-import Pagination from '../Pagination/pagination';
-import {paginate} from '../../utils/paginate';
-import UsersTable from "../UsersTable/usersTable";
-import api from "../../api";
-import SearchStatus from "../SearchStatus/searchStatus";
-import GroupList from "../GroupList/groupList";
-import Loader from "../Loader";
-import Search from "../Search/search";
+import Pagination from '../../common/Pagination/pagination';
+import {paginate} from '../../../utils/paginate';
+import UsersTable from "../../ui/UsersTable/usersTable";
+import api from "../../../api";
+import SearchStatus from "../../ui/SearchStatus/searchStatus";
+import GroupList from "../../common/GroupList/groupList";
+import Loader from "../../common/Loader";
+import Search from "../../common/Search/search";
 
-const UsersList = () => {
+const UsersListPage = () => {
     const [users, setUsers] = useState([]);
     const [selectedProf, setSelectedProf] = useState()
     const [professions, setProfessions] = useState([])
@@ -57,6 +57,10 @@ const UsersList = () => {
         setSearchByName(value)
     }
 
+    const handleClearSearch = () => {
+        setSearchByName('')
+    }
+
     const filteredUsers = searchByName ? users.filter(user => user.name.toLowerCase().includes(searchByName.toLowerCase()))
         : selectedProf ? users.filter((user) => user.profession.name === selectedProf) : users
     const usersLength = filteredUsers.length
@@ -69,11 +73,12 @@ const UsersList = () => {
                 <h2>
                     <SearchStatus number={filteredUsers.length}/>
                 </h2>
-                <Search onChange={onChangeInput}/>
+                <Search onChange={onChangeInput} value={searchByName}/>
             </div>
             <div className="wrapper__body">
                 <div className="wrapper__body-filters">
                     <GroupList
+                        clearSearch={handleClearSearch}
                         selectedItem={selectedProf}
                         setSelectedProf={setSelectedProf}
                         items={professions}
@@ -99,4 +104,4 @@ const UsersList = () => {
     )
 };
 
-export default UsersList;
+export default UsersListPage;
