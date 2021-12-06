@@ -4,6 +4,7 @@ import {getMaterialUrl} from '../../../utils/getMaterialUrl'
 import api from "../../../api";
 import Loader from "../../common/Loader";
 import QualitiesList from "../../ui/qualities/QualitiesList/qualitiesList";
+import {Link} from "react-router-dom";
 
 const UserPage = () => {
     const location = useLocation()
@@ -27,6 +28,9 @@ const UserPage = () => {
                  <h3>Качества: <QualitiesList qualities={user.qualities} /></h3>
                 <h3>Встретился раз: {user.completedMeetings}</h3>
                 <h3>Оценка: {user.rate}</h3>
+                <Link to={`/users/${userId}/edit`}>
+                    <button className='btn btn-secondary mt-2'>Изменить</button>
+                </Link>
                 <button
                     className='btn btn-secondary mt-2'
                     onClick={handleAllUsers}
