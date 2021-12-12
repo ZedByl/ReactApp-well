@@ -73,10 +73,7 @@ const RegisterForm = () => {
         }
     }
 
-    console.log(data.qualities)
-
     const handleChange = (target) => {
-        //проблема тут
         setData((prevState) => ({
             ...prevState,
             [target.name]: target.value

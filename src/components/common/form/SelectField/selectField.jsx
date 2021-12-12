@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from "prop-types";
 
 const SelectField = ({label, value, onChange, defaultOptions, options, name, error}) => {
@@ -37,8 +37,8 @@ const SelectField = ({label, value, onChange, defaultOptions, options, name, err
                 {optionsArray &&
                     optionsArray.map(option => (
                         <option
-                            value={option.value}
-                            key={option.value}
+                            value={option.value ? option.value : option._id}
+                            key={option.value ? option.value : option._id}
                         >
                             {option.name}
                         </option>
