@@ -128,7 +128,7 @@ const EditPage = () => {
         })
 
         localStorage.setItem('users', JSON.stringify(users))
-        location.assign(`/users/${userId}`)
+        window.location.assign(`/users/${userId}`)
     }
 
     return (

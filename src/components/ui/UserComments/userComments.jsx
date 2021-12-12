@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import SelectField from "../../common/form/SelectField/selectField";
 import api from "../../../api";
 import Comments from "../Comments/comments";
@@ -7,7 +7,7 @@ const UserComments = ({userId}) => {
     const [users, setUsers] = useState([]);
     const [selectedUser, setSelectedUser] = useState({});
     const [commentForUser, setCommentForUser] = useState([]);
-    const [message, setMessage] = useState('')
+    const message = useRef('')
 
     useEffect(() => {
         api.users.fetchAll().then(data => {
@@ -26,17 +26,12 @@ const UserComments = ({userId}) => {
         const newComment = {
             pageId: userId,
             userId: selectedUser.user,
-            content: message,
+            content: message.current.value,
         }
         api.comments.add(newComment)
         api.comments.fetchCommentsForUser(userId).then(data => setCommentForUser(data))
 
-        setMessage('')
-    }
-
-    const handleChangeMessage = (e) => {
-        const value = e.target.value
-        setMessage(value)
+        message.current.value = '';
     }
 
     const handleChange = (target) => {
@@ -66,10 +61,9 @@ const UserComments = ({userId}) => {
                             >Сообщение</label>
                             <textarea
                                 className="form-control"
-                                onChange={handleChangeMessage}
                                 id="exampleFormControlTextarea1"
                                 rows="3"
-                                value={message}
+                                ref={message}
                             />
                         </div>
                         <button
