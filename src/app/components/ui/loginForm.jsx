@@ -61,9 +61,10 @@ const LoginForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
+        const historyPush = history.location.state ? history.location.state.from.pathname : "/";
         try {
             await signIn(data);
-            history.push("/users");
+            history.push(historyPush);
         } catch (error) {
             setErrors(error);
         }
