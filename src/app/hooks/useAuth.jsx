@@ -24,7 +24,7 @@ const AuthProvider = ({ children }) => {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
     async function signUp({ email, password, ...rest }) {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBQpnoQJ1wai4Ep4y2I3FxD1ZACaCXRf-s`;
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${process.env.REACT_APP_FIREBASE_KEY}`;
         try {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true });
             localStorageService.setTokens(data);
@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
         }
     }
     async function signIn({ email, password }) {
-        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBQpnoQJ1wai4Ep4y2I3FxD1ZACaCXRf-s`;
+        const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.REACT_APP_FIREBASE_KEY}`;
         try {
             const { data } = await httpAuth.post(url, { email, password, returnSecureToken: true });
             localStorageService.setTokens(data);
