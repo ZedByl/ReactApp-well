@@ -1,62 +1,36 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { validator } from "../../../utils/validator";
+import { validator } from "../../../utils/ validator";
 import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radio.Field";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backButton";
-import { useQualities } from "../../../hooks/useQualities";
-import { useProfessions } from "../../../hooks/useProfession";
 import { useAuth } from "../../../hooks/useAuth";
+import { useSelector } from "react-redux";
+import { getQualities, getQualitiesLoadingStatus } from "../../../store/qualities";
+import { getProfession, getProfessionLoadingStatus } from "../../../store/professions";
 
 const EditUserPage = () => {
     const history = useHistory();
-    const { currentUser, updateUserData } = useAuth();
-    const { qualities } = useQualities();
-    const { professions } = useProfessions();
-    const qualitiesList = qualities.map(q => ({ label: q.name, value: q._id }));
-    const professionsList = professions.map(p => ({ label: p.name, value: p._id }));
     const [isLoading, setIsLoading] = useState(true);
-    const [data, setData] = useState({
-        email: "",
-        password: "",
-        profession: "",
-        sex: "male",
-        qualities: []
-    });
+    const [data, setData] = useState();
+    const { currentUser, updateUserData } = useAuth();
+    const qualities = useSelector(getQualities());
+    const qualitiesLoading = useSelector(getQualitiesLoadingStatus());
+    const qualitiesList = qualities.map((q) => ({
+        label: q.name,
+        value: q._id
+    }));
+    const professions = useSelector(getProfession());
+    const professionLoading = useSelector(getProfessionLoadingStatus());
+    const professionsList = professions.map((p) => ({
+        label: p.name,
+        value: p._id
+    }));
+
     const [errors, setErrors] = useState({});
-    const getQualities = (elements) => {
-        const qualitiesArray = [];
-        for (const qualId of elements) {
-            for (const quality of qualities) {
-                if (quality._id === qualId) {
-                    qualitiesArray.push(quality);
-                    break;
-                }
-            }
-        }
-        return qualitiesArray;
-    };
-    const transformData = (data) => {
-        return getQualities(data).map((qual) => ({
-            label: qual.name,
-            value: qual._id
-        }));
-    };
-    useEffect(() => {
-        if (currentUser) {
-            setData({
-                ...currentUser,
-                qualities: transformData(currentUser.qualities)
-            });
-        }
-    }, [currentUser]);
-    useEffect(() => {
-        if (data && isLoading) {
-            setIsLoading(false);
-        }
-    }, [data]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         const isValid = validate();
@@ -67,6 +41,40 @@ const EditUserPage = () => {
         });
         history.push(`/users/${currentUser._id}`);
     };
+    function getQualitiesListByIds(qualitiesIds) {
+        const qualitiesArray = [];
+        for (const qualId of qualitiesIds) {
+            for (const quality of qualities) {
+                if (quality._id === qualId) {
+                    qualitiesArray.push(quality);
+                    break;
+                }
+            }
+        }
+        return qualitiesArray;
+    }
+    const transformData = (data) => {
+        const result = getQualitiesListByIds(data).map((qual) => ({
+            label: qual.name,
+            value: qual._id
+        }));
+
+        return result;
+    };
+    useEffect(() => {
+        if (!professionLoading && !qualitiesLoading && currentUser && !data) {
+            setData({
+                ...currentUser,
+                qualities: transformData(currentUser.qualities)
+            });
+        }
+    }, [professionLoading, qualitiesLoading, currentUser, data]);
+    useEffect(() => {
+        if (data && isLoading) {
+            setIsLoading(false);
+        }
+    }, [data]);
+
     const validatorConfog = {
         email: {
             isRequired: {
@@ -80,10 +88,6 @@ const EditUserPage = () => {
         name: {
             isRequired: {
                 message: "Введите ваше имя"
-            },
-            min: {
-                message: "Имя должен состаять миниму из 3 символов",
-                value: 3
             }
         }
     };

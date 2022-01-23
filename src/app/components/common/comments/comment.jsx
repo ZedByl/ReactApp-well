@@ -3,11 +3,17 @@ import PropTypes from "prop-types";
 import { displayDate } from "../../../utils/displayDate";
 import { useUser } from "../../../hooks/useUsers";
 import { useAuth } from "../../../hooks/useAuth";
-
-const Comment = ({ content, created_at: created, _id: id, userId, onRemove }) => {
+const Comment = ({
+    content,
+    created_at: created,
+    _id: id,
+    userId,
+    onRemove
+}) => {
     const { getUserById } = useUser();
     const { currentUser } = useAuth();
     const user = getUserById(userId);
+
     return (
         <div className="bg-light card-body  mb-3">
             <div className="row">
@@ -25,14 +31,16 @@ const Comment = ({ content, created_at: created, _id: id, userId, onRemove }) =>
                                 <div className="d-flex justify-content-between align-items-center">
                                     <p className="mb-1 ">
                                         {user && user.name}{" "}
-                                        <span className="small">- {displayDate(created)}</span>
+                                        <span className="small">
+                                            - {displayDate(created)}
+                                        </span>
                                     </p>
                                     {currentUser._id === userId && (
                                         <button
                                             className="btn btn-sm text-primary d-flex align-items-center"
                                             onClick={() => onRemove(id)}
                                         >
-                                            <i className="bi bi-x-lg" />
+                                            <i className="bi bi-x-lg"></i>
                                         </button>
                                     )}
                                 </div>

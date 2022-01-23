@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { validator } from "../../utils/validator";
+import { validator } from "../../utils/ validator";
 import TextField from "../common/form/textField";
 import SelectField from "../common/form/selectField";
 import RadioField from "../common/form/radio.Field";
 import MultiSelectField from "../common/form/multiSelectField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { useQualities } from "../../hooks/useQualities";
-import { useProfessions } from "../../hooks/useProfession";
 import { useAuth } from "../../hooks/useAuth";
 import { useHistory } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { getQualities } from "../../store/qualities";
+import { getProfession } from "../../store/professions";
 
 const RegisterForm = () => {
     const history = useHistory();
@@ -22,11 +23,17 @@ const RegisterForm = () => {
         licence: false
     });
     const { signUp } = useAuth();
-    const { qualities } = useQualities();
-    const { professions } = useProfessions();
+    const qualities = useSelector(getQualities());
+    const qualitiesList = qualities.map((q) => ({
+        label: q.name,
+        value: q._id
+    }));
+    const professions = useSelector(getProfession());
+    const professionsList = professions.map((p) => ({
+        label: p.name,
+        value: p._id
+    }));
     const [errors, setErrors] = useState({});
-    const qualitiesList = qualities.map(q => ({ label: q.name, value: q._id }));
-    const professionsList = professions.map(p => ({ label: p.name, value: p._id }));
 
     const handleChange = (target) => {
         setData((prevState) => ({
@@ -48,7 +55,7 @@ const RegisterForm = () => {
                 message: "Имя обязательно для заполнения"
             },
             min: {
-                message: "Имя должен состаять миниму из 3 символов",
+                message: "Имя должено состаять миниму из 3 символов",
                 value: 3
             }
         },
@@ -93,7 +100,10 @@ const RegisterForm = () => {
         e.preventDefault();
         const isValid = validate();
         if (!isValid) return;
-        const newData = { ...data, qualities: data.qualities.map((q) => q.value) };
+        const newData = {
+            ...data,
+            qualities: data.qualities.map((q) => q.value)
+        };
         try {
             await signUp(newData);
             history.push("/");
@@ -101,6 +111,7 @@ const RegisterForm = () => {
             setErrors(error);
         }
     };
+
     return (
         <form onSubmit={handleSubmit}>
             <TextField

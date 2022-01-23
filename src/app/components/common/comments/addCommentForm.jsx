@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import TextAreaField from "../form/textAreaField";
-import { validator } from "../../../utils/validator";
+import { validator } from "../../../utils/ validator";
 import PropTypes from "prop-types";
 
 const AddCommentForm = ({ onSubmit }) => {
@@ -26,6 +26,7 @@ const AddCommentForm = ({ onSubmit }) => {
         setErrors(errors);
         return Object.keys(errors).length === 0;
     };
+
     const clearForm = () => {
         setData({});
         setErrors({});
@@ -35,8 +36,10 @@ const AddCommentForm = ({ onSubmit }) => {
         const isValid = validate();
         if (!isValid) return;
         onSubmit(data);
-        clearForm({});
+        console.log(data);
+        clearForm();
     };
+
     return (
         <div>
             <h2>New comment</h2>
