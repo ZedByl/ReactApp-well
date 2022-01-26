@@ -22,7 +22,6 @@ const LoginForm = () => {
             [target.name]: target.value
         }));
     };
-    console.log(loginError);
     const validatorConfog = {
         email: {
             isRequired: {
